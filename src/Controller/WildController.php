@@ -17,4 +17,6 @@ class WildController extends AbstractController
             'website' => 'Wild Séries',
         ]);
     }
+
+
 }
