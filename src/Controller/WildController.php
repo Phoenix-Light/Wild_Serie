@@ -30,6 +30,5 @@ class WildController extends AbstractController
         $slug = ucwords($slug, ' ');
         return $this->render('wild/show.html.twig', ['slug' => $slug]);
     }
-
-
+    
 }
