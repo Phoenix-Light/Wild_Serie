@@ -35,7 +35,7 @@ class Program
      * @ORM\ManyToOne(targetEntity="App\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Category;
+    private $category;
 
     public function getId(): ?int
     {
@@ -78,14 +78,14 @@ class Program
         return $this;
     }
 
-    public function getCategory(): ?Category
+    public function getCategory(): ?category
     {
-        return $this->Category;
+        return $this->category;
     }
 
-    public function setCategory(?Category $Category): self
+    public function setCategory(?category $category): self
     {
-        $this->Category = $Category;
+        $this->category = $category;
 
         return $this;
     }
