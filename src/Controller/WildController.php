@@ -2,18 +2,19 @@
 // src/Controller/WildController.php
 namespace App\Controller;
 
-use App\Repository\CategoryRepository;
+use App\Entity\Program;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Entity\Program;
-
+/**
+ * @Route("/index")
+ */
 class WildController extends AbstractController
 {
      /** Show all rows from Program’s entity
      *
-     * @Route("/wild/index", name="wild_index")
+     * @Route("/", name="wild_index")
      * @return Response A response instance
      */
     public function index() : Response
@@ -65,6 +66,13 @@ class WildController extends AbstractController
         ]);
     }
 
+    /**
+     * Getting a category with a formatted slug for title
+     *
+     * @param string $slug The slugger
+     * @Route("/showByCategory/{slug<^[a-z0-9-]+$>}", defaults={"slug" = null}, name="wild_showByCategory")
+     * @return Response
+     */
     public function showByCategory(string $categoryName)
     {
         if (!$slug) {
@@ -75,10 +83,10 @@ class WildController extends AbstractController
             '/-/',
             ' ', ucwords(trim(strip_tags($slug)), "-")
         );
-        $category = $this->getDoctrine()
+        $categoryName = $this->getDoctrine()
             ->getRepository(Category::class)
             ->findOneBy(['name' => mb_strtolower($slug)]);
-        if (!$category) {
+        if (!$categoryName) {
             throw $this->createNotFoundException(
                 'No category with '.$slug.' name, found in category\'s table.'
             );

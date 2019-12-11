@@ -2,12 +2,16 @@
 
 {% block content %}
     <h1>Bienvenue !</h1>
-    {# templates/index.html.twig #}
     <a href="{{ path('wild_show', { 'slug': "walking-dead" }) }}">
-        Testing show() method from WildController with a real program s slug.
+        Testing show() method from WildController with a real program slug.
     </a>
     <br>
     <a href="{{ path('wild_index') }}">
         Testing index() method from WildController to view all programs.
     </a>
+    <br>
+    <a href="{{ path('wild_showByCategory', { 'slug': "horreur" }) }}">
+        Testing showByCategory() method from WildController with a real category slug.
+    </a>
+    <br>
 {% endblock %}
