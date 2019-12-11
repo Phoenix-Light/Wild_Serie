@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Program;
+use App\Entity\Category;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/index")
+ * @Route("/wild")
  */
 class WildController extends AbstractController
 {
@@ -69,32 +71,35 @@ class WildController extends AbstractController
     /**
      * Getting a category with a formatted slug for title
      *
-     * @param string $slug The slugger
-     * @Route("/showByCategory/{slug<^[a-z0-9-]+$>}", defaults={"slug" = null}, name="wild_showByCategory")
+     * @param string $categoryName
+     * @Route("/showByCategory/{categoryName<^[a-z0-9-]+$>}", defaults={"categoryName" = null}, name="wild_showByCategory")
      * @return Response
      */
-    public function showByCategory(string $categoryName)
+    public function showByCategory(string $categoryName):Response
     {
-        if (!$slug) {
+        if (!$categoryName) {
             throw $this
-                ->createNotFoundException('No slug has been sent to find a category in category\'s table.');
+                ->createNotFoundException('No category has been sent to find a category in category\'s table.');
         }
-        $slug = preg_replace(
+        $categoryName = preg_replace(
             '/-/',
-            ' ', ucwords(trim(strip_tags($slug)), "-")
+            ' ', ucwords(trim(strip_tags($categoryName)), "-")
         );
         $categoryName = $this->getDoctrine()
             ->getRepository(Category::class)
-            ->findOneBy(['name' => mb_strtolower($slug)]);
+            ->findOneBy(['name' => mb_strtolower($categoryName)]);
         if (!$categoryName) {
             throw $this->createNotFoundException(
-                'No category with '.$slug.' name, found in category\'s table.'
+                'No category with '.$categoryName.' name, found in category\'s table.'
             );
         }
 
+        $categoryName = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findBy([], ['id' => 'DESC' ], 3, 0);
+
         return $this->render('wild/category.html.twig', [
-            'category' => $category,
-            'slug'  => $slug,
+            'categoryName' => $categoryName,
         ]);
     }
 
