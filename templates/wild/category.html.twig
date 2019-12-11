@@ -6,10 +6,15 @@
 {% block body %}
     <h1>Catégorie</h1>
     {% for program in categoryName %}
-    <div>
-        <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
-        <p>{{ program.summary }}</p>
-    </div>
+        <div class="media">
+            <div>
+                <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+            </div>
+            <div class="media-body">
+                <h2>{{ loop.index }} - {{ program.title }}</h2>
+                <p>{{ program.summary }}</p>
+            </div>
+        </div>
     {% else %}
         Aucune série trouvée.
     {% endfor %}
